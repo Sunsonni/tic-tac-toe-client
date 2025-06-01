@@ -1,0 +1,22 @@
+.app {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.grid {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    row-gap: 20px;
+}
+
+.square {
+  height: 5rem;
+  width: 5rem;
+  background-color: #FFD6BA;
+}
+
