@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiFetchService } from './service/api-fetch.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 })
 export class AppComponent {
   board = ["", "", "", "", "", "", "", "", ""];
-  form;
+  form: FormGroup;
   constructor(
     private apiservice: ApiFetchService,
     private formBuilder: FormBuilder
@@ -24,6 +24,12 @@ export class AppComponent {
   }
 
   public async onSubmit() {
-    this.board = await this.apiservice.getData('foo');
+    try {
+      this.board = await this.apiservice.getData(this.form.value.gameId);
+    } catch (error) {
+      alert('Invalid gameId');
+    }
+
+
   }
 }

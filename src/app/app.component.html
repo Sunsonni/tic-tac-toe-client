@@ -1,15 +1,17 @@
 <div class="app">
   <h1>Tic-Tac-Toe</h1>
   <div class="gameIdInput">
-    <input type="text">
-    <button type="button" (click)="onSubmit()">Submit</button>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input type="text" formControlName="gameId">
+      <button type="submit">Submit</button>
+    </form>
   </div>
   <div class="grid"> 
-    <ng-container *ngFor="let button of board" class="all-buttons">
-      <button class="square">
+    <div *ngFor="let button of board" class="grid-item">
+      <button>
         {{ button }}
       </button>
-    </ng-container>
+    </div>
   </div>
   <router-outlet></router-outlet>
 </div>
