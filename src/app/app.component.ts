@@ -25,11 +25,20 @@ export class AppComponent {
 
   public async onSubmit() {
     try {
-      this.board = await this.apiservice.getData(this.form.value.gameId);
+      this.board = await this.apiservice.getGameByGameId(this.form.value.gameId);
     } catch (error) {
       alert('Invalid gameId');
     }
 
+
+  }
+
+
+  public onClick() {
+    let games = this.apiservice.newGame('test', 'x', 1);
+  }
+
+  public move(index: number) {
 
   }
 }

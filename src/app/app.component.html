@@ -1,14 +1,18 @@
 <div class="app">
   <h1>Tic-Tac-Toe</h1>
-  <div class="gameIdInput">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input type="text" formControlName="gameId">
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+  <div class="game-options">
+    <button type="button" (click)="onClick()">New Game</button>
+    <div class="gameIdInput">
+      <label>Game Id</label>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input type="text" formControlName="gameId">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+</div>
   <div class="grid"> 
-    <div *ngFor="let button of board" class="grid-item">
-      <button>
+    <div *ngFor="let button of board; let i = index" class="grid-item">
+      <button type="button" (click)="move(i)">
         {{ button }}
       </button>
     </div>
