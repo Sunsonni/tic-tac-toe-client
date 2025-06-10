@@ -1,5 +1,14 @@
 <div class="app">
-  <app-modal></app-modal>
+  <ng-container>
+    <div class="modal" *ngIf="showComponent">
+        <form [formGroup]="player">
+          <input type="radio" formControlName="playerSelect" value="x"/> 
+          <label for="x">X</label>
+          <input type="radio" formControlName="playerSelect" value="o"/>
+          <label for="o">O</label>
+        </form>
+    </div>
+  </ng-container>
   <h1>Tic-Tac-Toe</h1>
   <div class="game-options">
     <button type="button" (click)="onClick()">New Game</button>

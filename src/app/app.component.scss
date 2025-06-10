@@ -43,4 +43,25 @@
   cursor: pointer;
 }
 
+.modal {
+  flex-direction: column;
+  width: 20rem;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  background-color: white;
+  box-shadow: 3px 3px 10px rgb(0 0 0 / 50%);
+}
 
+.player {
+  padding: 10px 20px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+}
+
+.player.active {
+  background-color: #007bff;
+  color: white;
+}

@@ -13,23 +13,35 @@ import { ApiFetchService } from './service/api-fetch.service';
 })
 export class AppComponent {
   form: FormGroup;
+  player: FormGroup;
+
   moves: Moves[] = [];
+  currPlayer: string = 'x';
   game: Game | undefined;
   board: string[] | undefined;
   board$: Observable<string[]> | undefined;
 
+  showComponent = false;
+
   constructor(
     private apiservice: ApiFetchService,
-    private formBuilder: FormBuilder
-  ) {
+    private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       gameId: new FormControl('')
+    });
+    this.player = this.formBuilder.group({
+      playerSelect: new FormControl('')
     })
   }
 
   ngOnInit() {
+    this.player.get('playerSelect')?.valueChanges
+      .subscribe(newValue => {
+        console.log("just testing", newValue);
+      })
   }
   
+
   public onSubmit() {
     this.apiservice.getGameByGameId(this.form.value.gameId)
     .pipe(
@@ -53,44 +65,34 @@ export class AppComponent {
     this.board = ['', '', '', '', '', '', '', '', '']
     this.board$ = of(this.board);
   
-    // const move: Moves = {
-      //   game: this.form.value.gameId,
-      //   move: 1,
-      //   board: board
-      // } 
-      // this.game$ = this.apiservice.newGame('foo', 'x', move);
+    this.showComponent = true;
+
+
+  }
+
+  move(i: number) {
+    if(!this.board) {
+      alert("board not set");
+      return;
     }
+
+    if(this.board[i] === 'x' || this.board[i] === 'o') {
+      alert("space is already taken");
+    }
+    const newBoard = [...this.board];
+    newBoard[i] = this.currPlayer;
     
 
-    // game: String,
-    // move: Number,
-    // board: Array<string>
+    const newMove: Moves = {
+      game: this.game?.moves[0].game ?? '',
+      move: i,
+      board: newBoard
+    };
+    
+    console.log(newMove);
+    this.board$ = of(newBoard);
+    //   this.apiservice.saveMove(this.game?.moves[0].game ?? '', this.game?.players ?? [], []);
 
-
-    move(i: number) {
-      console.log('clicking');
-      if(!this.board) {
-        alert("board not set");
-        return;
-      }
-
-      if(this.board[i] === 'x' || this.board[i] === 'o') {
-        alert("space is already taken");
-      }
-      const newBoard = [...this.board];
-      newBoard[i] = 'x';
-      
-
-      const newMove: Moves = {
-        game: this.game?.moves[0].game ?? '',
-        move: i,
-        board: newBoard
-      };
-      
-      console.log(newMove);
-      this.board$ = of(newBoard);
-      //   this.apiservice.saveMove(this.game?.moves[0].game ?? '', this.game?.players ?? [], []);
-
-    }
+  }
 
 }
