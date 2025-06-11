@@ -1,6 +1,6 @@
 import { Moves } from "./moves"
 
 export interface Game {
-    players: Array<String>,
+    players: Array<string>,
     moves: Array<Moves>
 }

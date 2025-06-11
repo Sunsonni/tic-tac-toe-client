@@ -1,0 +1,9 @@
+<ng-container *ngIf="(message$ |async) as message">
+  <div *ngIf="showMessages" class="message">
+    <p>
+      {{ message }}
+    </p>
+    <button>Play another game?</button>
+    <button (click)="onClose()">Close</button>
+  </div>
+</ng-container>

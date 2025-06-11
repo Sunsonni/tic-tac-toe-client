@@ -1,6 +1,6 @@
 export interface Moves {
-    game: String,
-    move: Number,
+    game: string,
+    move: number,
     board: Array<string>
 }
 

@@ -6,10 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { evalFunctions } from './evalFunctions';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
-  declarations: [				
-      AppComponent
+  declarations: [					
+      AppComponent,
+      MessageComponent
    ],
   imports: [
     BrowserModule,
@@ -18,6 +21,9 @@ import { AppComponent } from './app.component';
     NgbModule,
     HttpClientModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    evalFunctions
+  ]
 })
 export class AppModule { }

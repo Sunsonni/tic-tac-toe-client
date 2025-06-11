@@ -16,7 +16,7 @@
 
 .grid {
   display: grid;  
-  width: 80%;
+  width: 50%;
   grid-template-columns: repeat(3, 1fr);
   background-color: white;
   gap: 8px;
@@ -43,15 +43,27 @@
   cursor: pointer;
 }
 
+//TODO: finish making modal look nicer.
 .modal {
-  flex-direction: column;
-  width: 20rem;
-  align-items: center;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30rem;
+  height: 30rem;
   border: 2px solid black;
   background-color: white;
+  font-size: 3rem;
   box-shadow: 3px 3px 10px rgb(0 0 0 / 50%);
+  display: flex;                
+  flex-direction: column;       
+  align-items: center;     
+}
+
+.name{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
 }
 
 .player {
