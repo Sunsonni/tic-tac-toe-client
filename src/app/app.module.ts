@@ -6,13 +6,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MaskDirective } from './directives/mask.directive';
 import { evalFunctions } from './evalFunctions';
 import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [					
       AppComponent,
-      MessageComponent
+      MessageComponent,
+      MaskDirective
    ],
   imports: [
     BrowserModule,
@@ -24,6 +26,9 @@ import { MessageComponent } from './message/message.component';
   bootstrap: [AppComponent],
   providers: [
     evalFunctions
+  ],
+  exports: [
+    MaskDirective
   ]
 })
 export class AppModule { }

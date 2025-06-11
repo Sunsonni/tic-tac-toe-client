@@ -52,6 +52,7 @@
   width: 30rem;
   height: 30rem;
   border: 2px solid black;
+  border-radius: 20px;
   background-color: white;
   font-size: 3rem;
   box-shadow: 3px 3px 10px rgb(0 0 0 / 50%);
@@ -66,14 +67,35 @@
   width: 60%;
 }
 
-.player {
+.radio-select {
   padding: 10px 20px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  background-color: #eee;
+  margin: 10px;
 }
 
-.player.active {
-  background-color: #007bff;
-  color: white;
+// input[type="radio"] {
+
+// }
+
+.player {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #FFE8CD;
+}
+
+
+
+.player:hover {
+  background-color: aqua;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+button {
+  background-color: #FFE8CD;
+  border-radius: 5px;
+  box-shadow: black 1px;
 }

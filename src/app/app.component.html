@@ -5,13 +5,15 @@
         <form [formGroup]="player" class="modal" (ngSubmit)="newGameSubmit()">
           <div class="name">
             <label>Game Name</label>
-            <input type="input" formControlName="gameName"/>
+            <input type="input" formControlName="gameName" [mask]="'^[A-Za-z0-9]+$'"/>
           </div>
-          <div>
-            <input type="radio" formControlName="playerSelect" value="x" class="player"/> 
-            <label for="x">X</label>
-            <input type="radio" formControlName="playerSelect" value="o" class="player"/>
-            <label for="o">O</label>
+          <div class="checkbox-select">
+            <label for="x" class="player">X
+            </label>
+            <input type="radio" formControlName="playerSelect" value="x"/> 
+            <label for="o" class="player">O
+            </label>
+            <input type="radio" formControlName="playerSelect" value="o"/>
           </div>
           <button type="submit" [disabled]="!player.valid">Accept</button>
         </form>
@@ -19,21 +21,24 @@
   </ng-container>
   <h1>Tic-Tac-Toe</h1>
   <div class="game-options">
-    <button type="button" (click)="onClick()">New Game</button>
+    <button type="button" (click)="onClick()">
+      New Game</button>
     <div class="gameIdInput">
       <label>Game Id</label>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <input type="text" formControlName="gameId">
+        <input type="text" formControlName="gameId" [mask]="'^[A-Za-z0-9]+$'">
         <button type="submit">Submit</button>
       </form>
     </div>
 </div>
-<ng-container>
-  <div class="grid" *ngIf="(board$ | async) as board"> 
+<ng-container *ngIf="(board$ | async) as board">
+  <div class="game-info">
+  <h4>Current player: {{ this.currPlayer.toUpperCase() }}</h4>
+  <h4>Game Name: {{ this.gameName }}</h4>
+  </div>
+  <div class="grid" > 
     <div *ngFor="let button of board; let i = index" class="grid-item">
-      <button type="button" 
-      (click)="move(i)"
-      >
+      <button type="button" (click)="move(i)">
         {{ button }}
       </button>
     </div>

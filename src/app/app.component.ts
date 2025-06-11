@@ -35,11 +35,13 @@ export class AppComponent {
     private messageService: MessageService,
     private evalFunctions: evalFunctions) {
     this.form = this.formBuilder.group({
-      gameId: new FormControl('')
+      gameId: new FormControl('', Validators.pattern('^[a-zA-Z0-9]*$'))
     });
     this.player = this.formBuilder.group({
       playerSelect: new FormControl('', Validators.required),
-      gameName: new FormControl('', Validators.required)
+      gameName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern('^[a-zA-Z0-9]*$')])
     })
   }
 
@@ -56,6 +58,7 @@ export class AppComponent {
     this.currPlayer = this.player.get('playerSelect')?.value || 'x';
     this.moves = [];
     this.showComponent = false;
+    this.gameFinished = false;
   }
 
   public onSubmit() {
@@ -84,7 +87,8 @@ export class AppComponent {
   }
 
   move(i: number) {
-
+    if(this.gameFinished)
+      return;
     if(!this.board) {
       alert("Board not set");
       return;
@@ -129,7 +133,7 @@ export class AppComponent {
     
     this.apiservice.saveMove(newMove.game, game).subscribe();
     this.game = game;
-    
+
     if(this.evalFunctions.determineResult(this.board)) {
       this.gameFinished = true;
       this.messageService.showMessage(this.currPlayer + " wins");
