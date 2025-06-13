@@ -7,13 +7,13 @@
             <label>Game Name</label>
             <input type="input" formControlName="gameName" [mask]="'^[A-Za-z0-9]+$'"/>
           </div>
-          <div class="checkbox-select">
+          <div class="radio-select">
+            <input id="x" type="radio" formControlName="playerSelect" value="x"/> 
             <label for="x" class="player">X
             </label>
-            <input type="radio" formControlName="playerSelect" value="x"/> 
+            <input id="o" type="radio" formControlName="playerSelect" value="o"/>
             <label for="o" class="player">O
             </label>
-            <input type="radio" formControlName="playerSelect" value="o"/>
           </div>
           <button type="submit" [disabled]="!player.valid">Accept</button>
         </form>
@@ -33,8 +33,8 @@
 </div>
 <ng-container *ngIf="(board$ | async) as board">
   <div class="game-info">
-  <h4>Current player: {{ this.currPlayer.toUpperCase() }}</h4>
-  <h4>Game Name: {{ this.gameName }}</h4>
+  <!-- <h4>Current player: {{ this.game.toUpperCase() }}</h4>
+  <h4>Game Name: {{ this.gameName }}</h4> -->
   </div>
   <div class="grid" > 
     <div *ngFor="let button of board; let i = index" class="grid-item">

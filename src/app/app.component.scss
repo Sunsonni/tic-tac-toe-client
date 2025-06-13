@@ -68,24 +68,40 @@
 }
 
 .radio-select {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
   padding: 10px 20px;
   margin: 10px;
 }
 
-// input[type="radio"] {
-
-// }
-
-.player {
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #FFE8CD;
+input[type="radio"] {
+  display: none;
 }
 
+input[type="radio"]:checked + label.player{
+  background-color: #a3d8f4; 
+  border-color: #0077b6;
+  color: #222;
+}
 
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  gap: 10px;
+  border: 1px solid #ccc;
+  background-color: #FFE8CD;
+  font-size: 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
 
 .player:hover {
-  background-color: aqua;
+  background-color: #e3d7c9;
 }
 
 .game-info {
