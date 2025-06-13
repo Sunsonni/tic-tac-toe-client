@@ -1,13 +1,12 @@
+
 export class evalFunctions {
     constructor () {}
 
-    determineCurrPlayer(board: string[], players: string[]) : string {
-        const xCount = board.filter(cell => cell === 'x');
-        const oCount = board.filter(cell => cell === 'o');
-        if(xCount.length == oCount.length) {
-            return players[0];
+    determineCurrPlayer(lastPersonToMove: string | undefined) {
+        if(!lastPersonToMove) {
+          return 'x';
         }
-        return xCount.length > oCount.length ? 'o' : 'x';
+        return lastPersonToMove == 'x' ? 'o' : 'x';
     }
     
     checkWinner(board: string[], currPlayer: string) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { evalFunctions } from '../evalFunctions';
-import { Game } from '../interface/game';
+import { Game, Players } from '../interface/game';
 import { Moves } from '../interface/moves';
 import { MessageService } from '../message/message.service';
 import { ApiFetchService } from './api-fetch.service';
@@ -27,20 +27,31 @@ constructor(
   private messageService: MessageService,
   private ws: WsService) { 
      this.ws.data$.subscribe(data => {
-    if (data.game) {
-      this.game = data.game;
-      this.gameName = data.game.moves[0]?.game || this.gameName;
-      const lastMove = data.game.moves[data.game.moves.length - 1];
-      this.moves$.next(data.game.moves);
-      this.board$.next(lastMove ? lastMove.board : ['', '', '', '', '', '', '', '', '']);
-      this.gameFinished$.next(this.evalFunctions.gameOver(this.board$.getValue(), this.currPlayer));
-    }
-  });
+      if (data.game) {
+        console.log('ws subscribe occuring');
+        this.game = data.game;
+        this.gameName = data.game.moves[0]?.game || this.gameName;
+        const lastMove = data.game.moves[data.game.moves.length - 1];
+        this.moves$.next(data.game.moves);
+        this.board$.next(lastMove ? lastMove.board : ['', '', '', '', '', '', '', '', '']);
+        this.gameFinished$.next(this.evalFunctions.gameOver(this.board$.getValue(), this.currPlayer));
+      }
+    });
   }
 
+newGameCreated(gameId: string, userId: string) {
+//should set either x or o to userId
+//should post to backend with gameobj
+//should set board to empty board
+//if user is x then get move from user
+//else just send to back end
 
 
-setGameById(gameId: string){
+
+}
+
+
+setGameById(gameId: string, userId: string){
     this.apiservice.getGameByGameId(gameId)
     .pipe(
       catchError(err => {
@@ -60,29 +71,37 @@ setGameById(gameId: string){
     });
 }
 
-  saveMoveInBackEnd(i: number) {
+  saveMoveInBackEnd(i: number, userId: string) {
     if(this.gameFinished$.value)
           return;
     if(!this.board$) {
       alert("Board not set");
       return;
     }
-      
-    //players array: initial value is first player
-    let firstPlayerArray: string[] = [];
-    if(this.moves$.getValue().length == 0) {
-      firstPlayerArray.push(this.currPlayer); 
-      firstPlayerArray.push(this.currPlayer === 'x' ? 'o' : 'x');
-    } else {
-      //set to prev array or if null set to default value
-      firstPlayerArray = this.game?.players ?? ['x', 'o'];
-    }
+ 
+    let players: Players = this.game?.players ?? { x: "", o: "" };
 
-    //determines currently player
-    if(this.moves$.getValue().length > 0) {
-      this.currPlayer = this.evalFunctions.determineCurrPlayer(this.board$.getValue(), firstPlayerArray);
+    if (!players.x && !players.o) {
+      players = this.currPlayer === 'x'
+        ? { x: userId, o: "" }
+        : { x: "", o: userId };
+    } else if (!players.x && players.o !== userId) {
+      players.x = userId;
+    } else if (!players.o && players.x !== userId) {
+      players.o = userId;
     }
-
+    
+    //need to get what player is and check if last move was them
+    let temp =  Object.keys(players).find(
+      k => players[k as keyof typeof players] === userId  
+    ) || '';
+    console.log(temp);
+    if(temp == this.game?.lastPlayerToMove) {
+      alert("Not currently your move!");
+      return;
+    }
+    
+    
     //early return if player tries to place a move in filled spot
     if(this.board$.getValue()[i] === 'x' || this.board$.getValue()[i] === 'o') {
       alert("space is already taken");
@@ -91,22 +110,25 @@ setGameById(gameId: string){
 
     //creation of new board and fill with new move
     const newBoard = [...this.board$.getValue()];
-    newBoard[i] = this.currPlayer;
+    newBoard[i] = temp;
     
     //value for move number
     let currMove = this.moves$.getValue().length;
 
+    //creates new move to add 
     const newMove: Moves = {
       game: this.gameName,
       move: currMove,
       board: newBoard
     };
 
+    //creates updated moves array
     const updatedMoves = [...this.moves$.getValue(), newMove];
 
       const game: Game = {
-            players: firstPlayerArray,
-            moves: updatedMoves
+            players: players,
+            moves: updatedMoves,
+            lastPlayerToMove: temp
         };
     
     this.moves$.next(updatedMoves);

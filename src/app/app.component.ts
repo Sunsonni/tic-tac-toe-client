@@ -12,6 +12,7 @@ import { WsService } from './service/ws.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  userId: string;
   form: FormGroup;
   player: FormGroup;
 
@@ -38,6 +39,13 @@ export class AppComponent {
         Validators.pattern('^[a-zA-Z0-9]*$')])
     })
     this.ws.connectWebSocket();
+    
+    let storedId = localStorage.getItem('userId');
+    if(!storedId) {
+      storedId = crypto.randomUUID();
+      localStorage.setItem('userId', storedId);
+    }
+    this.userId = storedId;
     this.board$ = this.gameService.board$;
   }
 
@@ -76,12 +84,12 @@ export class AppComponent {
 
   public onSubmit() {
     
-    this.gameService.setGameById(this.gameId);
+    this.gameService.setGameById(this.gameId, this.userId);
     
   }
 
   move(i: number) {
-    this.gameService.saveMoveInBackEnd(i);
+    this.gameService.saveMoveInBackEnd(i, this.userId);
     
   }
 

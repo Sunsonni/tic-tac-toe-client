@@ -1,6 +1,11 @@
-import { Moves } from "./moves"
+import { Moves } from "./moves";
 
+export interface Players {
+    x: string;
+    o: string;
+}
 export interface Game {
-    players: Array<string>,
+    players: Players,
     moves: Array<Moves>
+    lastPlayerToMove?: string
 }
